@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Prompts — Mscsports</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem; }
+  .page { max-width: 720px; margin: 0 auto; }
+  .back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #1a56db; text-decoration: none; margin-bottom: 1.5rem; }
+  .back:hover { text-decoration: underline; }
+  .page-header { margin-bottom: 2rem; }
+  .page-header h1 { font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .page-header p { font-size: 13px; color: #6b6b6b; }
+  .section-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 12px; }
+  .card { background: #fff; border: 1px solid #e0e0dc; border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+  .card-title { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .card-meta { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .divider { height: 1px; background: #e0e0dc; margin: 16px 0; }
+  .prompt-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .prompt-box { background: #f5f5f3; border-radius: 8px; padding: 14px 16px; font-size: 13px; color: #1a1a1a; line-height: 1.7; white-space: pre-wrap; }
+  .copy-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; font-size: 12px; color: #555; background: #fff; border: 1px solid #e0e0dc; border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+  .copy-btn:hover { background: #f0f0ec; }
+  .copy-btn.copied { color: #1a56db; border-color: #b3c6f5; }
+  .steps { list-style: none; padding: 0; margin: 0; }
+  .steps li { font-size: 14px; color: #1a1a1a; padding: 5px 0 5px 14px; border-left: 2px solid #e0e0dc; margin-bottom: 6px; line-height: 1.55; }
+  .steps li strong { font-weight: 600; }
+  .tool-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-bottom: 12px; }
+  .tool-chatgpt { background: #e8f5e9; color: #2e7d32; }
+  .tool-grok { background: #fce4ec; color: #c62828; }
+  .tool-gwi { background: #e8f0fe; color: #1a56db; }
+  .note { font-size: 13px; color: #6b6b6b; background: #f5f5f3; border-radius: 8px; padding: 10px 14px; margin-top: 10px; line-height: 1.5; }
+  .group-title { font-size: 17px; font-weight: 600; color: #1a1a1a; margin: 2rem 0 1rem; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back" href="index.html">← Back to framework</a>
+
+  <div class="page-header">
+    <h1>Research prompts</h1>
+    <p>Step 2 — use these prompts to gather audience, brand, and category evidence</p>
+  </div>
+
+  <p class="section-label">How to use this guide</p>
+  <p style="font-size:14px; color:#555; margin-bottom:1.5rem; line-height:1.6;">Each prompt is designed to be flexible. Paste it directly into your AI tool — the model will ask you the right questions before proceeding. Replace placeholder text in brackets with your specific details when prompted. Prompts work best with Claude, ChatGPT-4o, or equivalent.</p>
+
+  <p class="group-title">ChatGPT deep research</p>
+
+  <div class="card">
+    <div class="card-title">Audience & category deep research</div>
+    <div class="card-meta">Use when you need substantive background on fans, behaviours, or the broader category</div>
+    <span class="tool-badge tool-chatgpt">ChatGPT deep research</span>
+    <div class="prompt-label">How to use</div>
+    <ul class="steps">
+      <li>Identify an angle to explore — e.g. why South Africans are passionate about soccer, or how fans of [team] engage digitally</li>
+      <li>Ask ChatGPT to <strong>write a prompt</strong> for deep research on that angle — tell it to stick to research, not insight generation</li>
+      <li>Run that prompt using the <strong>Deep Research</strong> function in ChatGPT</li>
+      <li>Ask ChatGPT to summarise the findings and share relevant sources</li>
+    </ul>
+    <div class="divider"></div>
+    <div class="prompt-label">Starter prompt</div>
+    <div class="prompt-box">Write me a deep research prompt to explore [insert angle — e.g. why fans of [sport/team] engage the way they do]. The prompt should focus purely on gathering research and data — no insight generation or recommendations. It should be structured to get credible, sourced findings.</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <p class="group-title">GROK — social media listening</p>
+
+  <div class="card">
+    <div class="card-title">Social listening via GROK</div>
+    <div class="card-meta">Use to understand what fans are actually saying on social media about a brand, team, or topic</div>
+    <span class="tool-badge tool-grok">GROK</span>
+    <div class="prompt-label">How to use</div>
+    <ul class="steps">
+      <li>Ask ChatGPT to write a GROK prompt to conduct social listening on your chosen topic</li>
+      <li>Paste and run that prompt in GROK</li>
+      <li>Copy or download the GROK report back into ChatGPT</li>
+      <li>Ask for 5–10 key findings from the report</li>
+    </ul>
+    <div class="divider"></div>
+    <div class="prompt-label">Starter prompt (paste into ChatGPT first)</div>
+    <div class="prompt-box">Write me a GROK prompt to conduct social listening on [insert topic — e.g. how fans of [team/sport] talk about [brand/category] on social media]. The prompt should be designed to surface real fan sentiment, recurring themes, and notable conversations.</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <p class="group-title">GWI — audience data</p>
+
+  <div class="card">
+    <div class="card-title">GWI data analysis via ChatGPT</div>
+    <div class="card-meta">Use to extract meaningful findings from GWI crosstab exports</div>
+    <span class="tool-badge tool-gwi">GWI + ChatGPT</span>
+    <div class="prompt-label">How to use</div>
+    <ul class="steps">
+      <li>Download a crosstab export from GWI as an Excel file</li>
+      <li>Upload it to ChatGPT</li>
+      <li>Use one of the prompts below to extract findings</li>
+    </ul>
+    <div class="divider"></div>
+    <div class="prompt-label">Prompt — general findings</div>
+    <div class="prompt-box">Analyse this GWI crosstab data and share 5–10 key findings about the audience. Focus on behaviours, attitudes, and interests that stand out as significant or surprising.</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+    <div class="divider"></div>
+    <div class="prompt-label">Prompt — unusual interests</div>
+    <div class="prompt-box">Based on this GWI data, what is something unusual or unexpected that this audience is interested in — something that wouldn't be obvious from their demographic profile alone?</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+    <div class="divider"></div>
+    <div class="prompt-label">Prompt — interests outside sport</div>
+    <div class="prompt-box">What interests or behaviours does this audience have outside of sport? Identify the top 5 non-sport interests or passions that define this group.</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+    <div class="divider"></div>
+    <div class="prompt-label">Prompt — shared beliefs</div>
+    <div class="prompt-box">What are the top 5 attitudes, beliefs, or behaviours that this audience shares most strongly? Focus on things that reveal how they see themselves or the world.</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <p class="group-title">AI sources check</p>
+
+  <div class="card">
+    <div class="card-title">Credibility check for AI-generated research</div>
+    <div class="card-meta">Use to verify that findings from AI tools are reliable before building insights on them</div>
+    <div class="prompt-label">Prompt</div>
+    <div class="prompt-box">For each finding you've shared, tell me: what is the source or basis for this claim, how confident are you in its accuracy, and is there a reputable published study, report, or data set that supports it? Flag anything that is a generalisation or assumption rather than a verified fact.</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+</div>
+<script>
+  function copyPrompt(btn) {
+    const box = btn.previousElementSibling;
+    navigator.clipboard.writeText(box.innerText).then(() => {
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy prompt'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+</script>
+</body>
+</html>

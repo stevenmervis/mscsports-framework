@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stress Test Prompts — Mscsports</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem; }
+  .page { max-width: 720px; margin: 0 auto; }
+  .back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #1a56db; text-decoration: none; margin-bottom: 1.5rem; }
+  .back:hover { text-decoration: underline; }
+  .page-header { margin-bottom: 2rem; }
+  .page-header h1 { font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .page-header p { font-size: 13px; color: #6b6b6b; }
+  .card { background: #fff; border: 1px solid #e0e0dc; border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+  .card-title { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .card-meta { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .divider { height: 1px; background: #e0e0dc; margin: 16px 0; }
+  .prompt-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .prompt-box { background: #f5f5f3; border-radius: 8px; padding: 14px 16px; font-size: 13px; color: #1a1a1a; line-height: 1.7; white-space: pre-wrap; }
+  .copy-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; font-size: 12px; color: #555; background: #fff; border: 1px solid #e0e0dc; border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+  .copy-btn:hover { background: #f0f0ec; }
+  .copy-btn.copied { color: #1a56db; border-color: #b3c6f5; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .meta-pill { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .meta-context { background: #f0f0ec; color: #555; }
+  .meta-role { background: #e8f0fe; color: #1a56db; }
+  .meta-output { background: #e8f5e9; color: #2e7d32; }
+  .rules { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .rule { background: #f5f5f3; border-radius: 8px; padding: 10px 12px; }
+  .rule-label { font-size: 11px; font-weight: 600; color: #888; margin-bottom: 3px; }
+  .rule-text { font-size: 13px; color: #1a1a1a; line-height: 1.4; }
+  .group-title { font-size: 17px; font-weight: 600; color: #1a1a1a; margin: 2rem 0 1rem; }
+  @media (max-width: 480px) { .rules { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back" href="index.html">← Back to framework</a>
+
+  <div class="page-header">
+    <h1>Stress test prompts</h1>
+    <p>Step 4 — use these to validate that what you have is a true insight, not just an observation</p>
+  </div>
+
+  <p style="font-size:14px; color:#555; margin-bottom:1rem; line-height:1.6;">Before running any of these prompts, check your insight against the three golden rules:</p>
+
+  <div class="rules" style="margin-bottom:1.5rem;">
+    <div class="rule"><div class="rule-label">New?</div><div class="rule-text">Does it reveal a "why" that hasn't been explored before?</div></div>
+    <div class="rule"><div class="rule-label">Actionable?</div><div class="rule-text">Does it tell us why something is happening so we can act on it?</div></div>
+    <div class="rule"><div class="rule-label">Fan-led?</div><div class="rule-text">Is it about fans, or does the solution it informs benefit fans?</div></div>
+  </div>
+
+  <p style="font-size:14px; color:#555; margin-bottom:1.5rem; line-height:1.6;">If your insight passes all three, use the prompts below to verify with AI. Prompts work best with Claude, ChatGPT-4o, or equivalent.</p>
+
+  <p class="group-title">Validation prompts</p>
+
+  <div class="card">
+    <div class="card-title">Observation vs insight check</div>
+    <div class="card-meta">Use first — determines whether what you have qualifies as a true insight</div>
+    <div class="meta-row">
+      <span class="meta-pill meta-context">Context: validating a research statement</span>
+      <span class="meta-pill meta-role">Role: insight validator</span>
+      <span class="meta-pill meta-output">Output: classification + improved version</span>
+    </div>
+    <div class="prompt-label">What the output covers</div>
+    <ul style="list-style:none; padding:0; margin:0 0 16px;">
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Classification</strong> — Insight or Observation</li>
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Reasoning</strong> — why it qualifies or falls short</li>
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>What's missing</strong> — evidence, tension, or implication gaps</li>
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Improved version</strong> — a rewrite that meets the bar</li>
+    </ul>
+    <div class="prompt-label">Prompt</div>
+    <div class="prompt-box">You are a rigorous insight validator.
+
+Ask me for the statement to evaluate, any supporting evidence, and whether there is a linked action or strategic implication attached to it.
+
+Assess it against these criteria — a true insight must:
+- Be grounded in evidence
+- Contain a tension or "why it matters"
+- Point clearly toward action
+
+Output:
+- Classification — Insight or Observation
+- Reasoning — why it qualifies or falls short
+- What's missing — evidence, tension, or implication gaps
+- Improved version — a rewrite that meets the bar</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Fan-led validity filter</div>
+    <div class="card-meta">Use to check that your insight reflects genuine fan truth — not a brand assumption dressed up as one</div>
+    <div class="meta-row">
+      <span class="meta-pill meta-context">Context: ensuring insights reflect genuine fan truths</span>
+      <span class="meta-pill meta-role">Role: fan ethnographer</span>
+      <span class="meta-pill meta-output">Output: authenticity rating + revised insight</span>
+    </div>
+    <div class="prompt-label">What the output covers</div>
+    <ul style="list-style:none; padding:0; margin:0 0 16px;">
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Authenticity rating</strong> — High, Medium, or Low</li>
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Reasoning</strong> — why it does or doesn't ring true</li>
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Fan reality check</strong> — what fans actually feel or do</li>
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Revised insight</strong> — for low-rated insights only</li>
+    </ul>
+    <div class="prompt-label">Prompt</div>
+    <div class="prompt-box">You are a fan ethnographer evaluating the authenticity of audience insights.
+
+One question at a time, ask me which fans are described, whether the insight reflects their actual beliefs or behaviours, and whether fans would genuinely recognise themselves in it.
+
+Assess the insight and deliver:
+- Authenticity Rating — High, Medium, or Low
+- Reasoning — why it does or doesn't ring true
+- Fan Reality Check — what fans actually feel or do
+- Revised Insight — for low-rated insights only, a fan-centred rewrite</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Actionability check</div>
+    <div class="card-meta">Use last — confirms the insight is ready to brief a creative team</div>
+    <div class="meta-row">
+      <span class="meta-pill meta-context">Context: confirming insights are brief-ready</span>
+      <span class="meta-pill meta-role">Role: creative strategist</span>
+      <span class="meta-pill meta-output">Output: actionable rewrite + creative springboard</span>
+    </div>
+    <div class="prompt-label">What the output covers</div>
+    <ul style="list-style:none; padding:0; margin:0 0 16px;">
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Actionable rewrite</strong> — clear creative direction embedded</li>
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Creative springboard</strong> — one or two execution ideas to develop</li>
+      <li style="font-size:14px; color:#1a1a1a; padding:5px 0 5px 14px; border-left:2px solid #e0e0dc; margin-bottom:4px; line-height:1.55;"><strong>Success metric</strong> — how impact would be measured</li>
+    </ul>
+    <div class="prompt-label">Prompt</div>
+    <div class="prompt-box">You are a creative strategist ensuring insights are brief-ready.
+
+Ask me the intended use (campaign, platform, partnership), how much creative flexibility the brand allows, and whether to provide broad territories or executional specifics.
+
+Rewrite the insight as a brief-ready statement and include:
+- Actionable Rewrite — clear creative direction embedded
+- Creative Springboard — one or two execution ideas to develop
+- Success Metric — how impact would be measured</div>
+    <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+  </div>
+
+</div>
+<script>
+  function copyPrompt(btn) {
+    const box = btn.previousElementSibling;
+    navigator.clipboard.writeText(box.innerText).then(() => {
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy prompt'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
