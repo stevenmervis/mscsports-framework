@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mscsports Insights Framework</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem; }
+  .page { max-width: 720px; margin: 0 auto; }
+  .page-header { margin-bottom: 2rem; }
+  .page-header h1 { font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .page-header p { font-size: 13px; color: #6b6b6b; }
+  .hint { font-size: 13px; color: #6b6b6b; margin-bottom: 1.25rem; }
+
+  .step { border: 1px solid #e0e0dc; border-radius: 12px; margin-bottom: 12px; overflow: hidden; background: #ffffff; }
+  .step-header { display: flex; align-items: flex-start; gap: 14px; padding: 16px 18px; cursor: pointer; user-select: none; }
+  .step-header:hover { background: #f9f9f7; }
+  .step-num { font-size: 11px; font-weight: 600; color: #6b6b6b; background: #f0f0ec; border-radius: 4px; padding: 2px 8px; margin-top: 2px; flex-shrink: 0; }
+  .step-title-block { flex: 1; }
+  .step-title { font-size: 15px; font-weight: 600; color: #1a1a1a; margin: 0 0 3px; }
+  .step-subtitle { font-size: 13px; color: #6b6b6b; margin: 0; }
+  .step-chevron { font-size: 11px; color: #aaa; margin-top: 5px; flex-shrink: 0; transition: transform 0.2s; display: inline-block; }
+  .step-chevron.open { transform: rotate(180deg); }
+
+  .step-body { display: none; border-top: 1px solid #e0e0dc; padding: 18px; }
+  .step-body.open { display: block; }
+
+  .section { margin-bottom: 18px; }
+  .section:last-child { margin-bottom: 0; }
+  .section-title { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 10px; }
+
+  .questions { list-style: none; padding: 0; margin: 0; }
+  .questions li { font-size: 14px; color: #1a1a1a; padding: 5px 0 5px 14px; border-left: 2px solid #e0e0dc; margin-bottom: 4px; line-height: 1.55; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 12px; padding: 4px 10px; border-radius: 6px; background: #f0f0ec; color: #555; border: 1px solid #e0e0dc; }
+  .tag.always { background: #e8f0fe; color: #1a56db; border-color: transparent; }
+
+  .output { font-size: 13px; color: #555; background: #f5f5f3; border-radius: 8px; padding: 10px 14px; display: flex; align-items: flex-start; gap: 8px; }
+  .output-arrow { flex-shrink: 0; margin-top: 1px; font-weight: 600; color: #888; }
+  .output-text { line-height: 1.5; }
+
+  .divider { height: 1px; background: #e0e0dc; margin: 14px 0; }
+
+  .sub { border: 1px solid #e0e0dc; border-radius: 8px; overflow: hidden; margin-bottom: 8px; }
+  .sub:last-child { margin-bottom: 0; }
+  .sub-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; cursor: pointer; user-select: none; background: #f9f9f7; }
+  .sub-header:hover { background: #f0f0ec; }
+  .sub-title { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+  .sub-chevron { font-size: 10px; color: #aaa; transition: transform 0.2s; display: inline-block; }
+  .sub-chevron.open { transform: rotate(180deg); }
+  .sub-body { display: none; padding: 14px; border-top: 1px solid #e0e0dc; }
+  .sub-body.open { display: block; }
+
+  .structure { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .struct-item { background: #f5f5f3; border-radius: 8px; padding: 10px 12px; }
+  .struct-label { font-size: 11px; font-weight: 600; color: #888; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .struct-text { font-size: 13px; color: #1a1a1a; line-height: 1.4; }
+
+  .rules { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .rule { font-size: 13px; color: #1a1a1a; background: #f5f5f3; border-radius: 8px; padding: 10px 12px; line-height: 1.4; }
+  .rule span { display: block; font-size: 11px; font-weight: 600; color: #888; margin-bottom: 4px; }
+
+  .formula { font-size: 14px; color: #555; background: #f5f5f3; border-radius: 8px; padding: 12px 16px; font-style: italic; line-height: 1.6; }
+
+  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+  .link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: #1a56db; text-decoration: none; padding: 5px 10px; border: 1px solid #b3c6f5; border-radius: 6px; }
+  .link:hover { background: #e8f0fe; }
+  .link-note { font-size: 12px; color: #aaa; margin-top: 4px; }
+
+  @media (max-width: 480px) {
+    .rules { grid-template-columns: 1fr; }
+    .structure { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <h1>Mscsports Insights Framework</h1>
+    <p>Brief-driven strategy process — click any step to expand</p>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="step">
+    <div class="step-header" onclick="toggleStep(this)">
+      <div class="step-num">01</div>
+      <div class="step-title-block">
+        <p class="step-title">Define the problem</p>
+        <p class="step-subtitle">Clarify what you're actually solving for before any research begins</p>
+      </div>
+      <span class="step-chevron">&#9660;</span>
+    </div>
+    <div class="step-body">
+      <div class="section">
+        <p class="section-title">Key questions</p>
+        <ul class="questions">
+          <li>What do we need to know and what are we trying to solve?</li>
+          <li>What is the business problem — as the client sees it?</li>
+          <li>What is the human problem — what's stopping fans from engaging or buying?</li>
+          <li>What type of strategy is required? (Partnership / Campaign / Messaging / Content / Comms / Sales)</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">Defining the human problem</p>
+        <ul class="questions">
+          <li>What are audiences not doing?</li>
+          <li>What belief-based, identity-based, emotional, or contextual frictions exist?</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="output">
+        <span class="output-arrow">→</span>
+        <span class="output-text">Output: a clearly defined business problem, human problem, and strategy type</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step">
+    <div class="step-header" onclick="toggleStep(this)">
+      <div class="step-num">02</div>
+      <div class="step-title-block">
+        <p class="step-title">Research</p>
+        <p class="step-subtitle">Gather audience, brand, and category evidence at the depth the brief requires</p>
+      </div>
+      <span class="step-chevron">&#9660;</span>
+    </div>
+    <div class="step-body">
+      <div class="section">
+        <p class="section-title">Always do</p>
+        <div class="tags">
+          <span class="tag always">Desktop research</span>
+          <span class="tag always">GWI basic data</span>
+          <span class="tag always">AI basic prompts</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">Additional options</p>
+        <div class="tags">
+          <span class="tag">Fan interviews / IDIs</span>
+          <span class="tag">Social listening</span>
+          <span class="tag">Focus groups</span>
+          <span class="tag">Surveys / polls</span>
+          <span class="tag">On-site observation</span>
+          <span class="tag">Telmar</span>
+          <span class="tag">Google Trends</span>
+          <span class="tag">Past campaign data</span>
+          <span class="tag">AI deep prompts</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">Research focus areas — expand each for questions</p>
+
+        <div class="sub">
+          <div class="sub-header" onclick="toggleSub(this)">
+            <span class="sub-title">Audience</span>
+            <span class="sub-chevron">&#9660;</span>
+          </div>
+          <div class="sub-body">
+            <ul class="questions">
+              <li>Who are the core and potential fans — demographically, psychographically, and behaviourally?</li>
+              <li>What drives their passion for this sport or team, and what role does it play in their identity or lifestyle?</li>
+              <li>How do they currently engage with the sport — live, broadcast, digital, social, community?</li>
+              <li>What barriers or tensions prevent deeper engagement or connection with the sport or brand?</li>
+              <li>What unmet needs, motivations, or aspirations could the brand uniquely tap into through sponsorship?</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sub">
+          <div class="sub-header" onclick="toggleSub(this)">
+            <span class="sub-title">Brand</span>
+            <span class="sub-chevron">&#9660;</span>
+          </div>
+          <div class="sub-body">
+            <ul class="questions">
+              <li>How is the brand currently perceived within the context of sport and among fans?</li>
+              <li>What are the brand's key business and marketing objectives that sponsorship should help achieve?</li>
+              <li>What aspects of the brand's purpose, values, or personality align with the spirit of sport or the target audience?</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sub">
+          <div class="sub-header" onclick="toggleSub(this)">
+            <span class="sub-title">Category</span>
+            <span class="sub-chevron">&#9660;</span>
+          </div>
+          <div class="sub-body">
+            <ul class="questions">
+              <li>Which brands dominate the space, and what territories or narratives have they claimed?</li>
+              <li>What challenger brands or new entrants are redefining how sponsorship shows up?</li>
+              <li>What category conventions or clichés could we break to stand out meaningfully?</li>
+              <li>Where are the white spaces or untapped opportunities that no brand is currently owning?</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sub">
+          <div class="sub-header" onclick="toggleSub(this)">
+            <span class="sub-title">Culture</span>
+            <span class="sub-chevron">&#9660;</span>
+          </div>
+          <div class="sub-body">
+            <ul class="questions">
+              <li>What cultural shifts or conversations are influencing the world of sport right now?</li>
+              <li>How can the brand credibly participate in or lead one of these cultural conversations?</li>
+              <li>What social or community issues connected to the sport could the brand authentically support?</li>
+              <li>What existing narratives or stereotypes in sport could the brand challenge or modernise?</li>
+              <li>How does this sport intersect with broader cultural spaces — music, fashion, entertainment, digital fandom — that the brand can leverage?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">Credibility check for sources</p>
+        <ul class="questions">
+          <li>Who conducted it? Is the source reputable?</li>
+          <li>How was the data collected?</li>
+          <li>How large was the sample?</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">AI prompt guides</p>
+        <div class="links">
+          <a class="link" href="REPLACE_WITH_YOUR_LINK" target="_blank">Research prompts ↗</a>
+        </div>
+        <p class="link-note">Replace the link above with your team's actual AI prompt library once hosted.</p>
+      </div>
+      <div class="divider"></div>
+      <div class="output">
+        <span class="output-arrow">→</span>
+        <span class="output-text">Output: summarised findings across audience, brand, category, and culture — ready to synthesise</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step">
+    <div class="step-header" onclick="toggleStep(this)">
+      <div class="step-num">03</div>
+      <div class="step-title-block">
+        <p class="step-title">Synthesise findings into insights</p>
+        <p class="step-subtitle">Move from what you found to why it matters</p>
+      </div>
+      <span class="step-chevron">&#9660;</span>
+    </div>
+    <div class="step-body">
+      <div class="section">
+        <p class="section-title">Process</p>
+        <ul class="questions">
+          <li>Summarise your research findings clearly</li>
+          <li>Identify patterns, tensions, or contradictions in the data</li>
+          <li>Reframe as a human truth — what people feel, believe, or need</li>
+          <li>Write the insight: simple, emotive, directional</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">Insight structure</p>
+        <div class="structure">
+          <div class="struct-item">
+            <div class="struct-label">Truth</div>
+            <div class="struct-text">Evidence-backed fan or consumer belief</div>
+          </div>
+          <div class="struct-item">
+            <div class="struct-label">Tension</div>
+            <div class="struct-text">The conflict or unmet need this creates</div>
+          </div>
+          <div class="struct-item">
+            <div class="struct-label">Resolution</div>
+            <div class="struct-text">How the brand could address the tension</div>
+          </div>
+          <div class="struct-item">
+            <div class="struct-label">Evidence</div>
+            <div class="struct-text">Supporting data point or quote</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">Writing formula</p>
+        <div class="formula">"Fans want [desire], but [fear / barrier / pressure] gets in the way."</div>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">Writing process</p>
+        <ul class="questions">
+          <li>Draft — get the thought down plainly first</li>
+          <li>Rewrite — use visual words, add emotional tension with "but"</li>
+          <li>Test — share with others; you want an "aha" reaction</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">AI prompt guides</p>
+        <div class="links">
+          <a class="link" href="REPLACE_WITH_YOUR_LINK" target="_blank">Insight generation prompts ↗</a>
+          <a class="link" href="REPLACE_WITH_YOUR_LINK" target="_blank">Strategy finishing school prompts ↗</a>
+        </div>
+        <p class="link-note">Replace these links with your actual hosted prompt docs.</p>
+      </div>
+      <div class="divider"></div>
+      <div class="output">
+        <span class="output-arrow">→</span>
+        <span class="output-text">Output: 1–3 sharp, fan-led insights with truth, tension, resolution, and evidence</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step">
+    <div class="step-header" onclick="toggleStep(this)">
+      <div class="step-num">04</div>
+      <div class="step-title-block">
+        <p class="step-title">Stress test</p>
+        <p class="step-subtitle">Make sure what you have is actually an insight — not just an observation</p>
+      </div>
+      <span class="step-chevron">&#9660;</span>
+    </div>
+    <div class="step-body">
+      <div class="section">
+        <p class="section-title">Three golden rules</p>
+        <div class="rules">
+          <div class="rule"><span>New?</span>Does this reveal a "why" that hasn't been explored before?</div>
+          <div class="rule"><span>Actionable?</span>Does it tell us why something is happening so we can do something about it?</div>
+          <div class="rule"><span>Fan-led?</span>Is it about fans, or does the solution it informs benefit fans?</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">AI prompt guides</p>
+        <div class="links">
+          <a class="link" href="REPLACE_WITH_YOUR_LINK" target="_blank">Stress test prompts ↗</a>
+        </div>
+        <p class="link-note">Replace with your actual hosted prompt doc.</p>
+      </div>
+      <div class="divider"></div>
+      <div class="output">
+        <span class="output-arrow">→</span>
+        <span class="output-text">Output: validated insight(s) that pass all three rules — or a rewrite that does</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step">
+    <div class="step-header" onclick="toggleStep(this)">
+      <div class="step-num">05</div>
+      <div class="step-title-block">
+        <p class="step-title">Translate to action</p>
+        <p class="step-subtitle">Apply the insight based on where it needs to go</p>
+      </div>
+      <span class="step-chevron">&#9660;</span>
+    </div>
+    <div class="step-body">
+      <div class="section">
+        <p class="section-title">How the insight gets used</p>
+        <ul class="questions">
+          <li>Feed into strategy for an existing brief</li>
+          <li>Propose a proactive idea to a brand or rights holder</li>
+          <li>Share externally as thought leadership</li>
+          <li>Bank it for future briefs</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">Internal distribution</p>
+        <div class="tags">
+          <span class="tag">Strategy & creative — ad hoc</span>
+          <span class="tag">New business — 1-pager</span>
+          <span class="tag">Agency sessions — quarterly</span>
+          <span class="tag">Agency mailer — monthly</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-title">External distribution</p>
+        <div class="tags">
+          <span class="tag">Formal presentations</span>
+          <span class="tag">Client 1-pagers</span>
+          <span class="tag">Client sessions</span>
+          <span class="tag">Social media — monthly</span>
+          <span class="tag">Webinar / podcast</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="output">
+        <span class="output-arrow">→</span>
+        <span class="output-text">Output: a clear next step — brief, proposal, content piece, or banked insight</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function toggleStep(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.step-chevron');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+  }
+  function toggleSub(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.sub-chevron');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>
